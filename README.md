@@ -21,8 +21,8 @@ O site foi construído com foco em **acessibilidade**, **responsividade mobile-f
 ## Funcionalidades
 
 ### Internacionalização
-- Suporte a **7 idiomas**: Português 🇧🇷, English 🇺🇸, Español 🇲🇽, Français 🇫🇷, Deutsch 🇩🇪, 日本語 🇯🇵 e العربية 🇸🇦
-- Suporte a layout **RTL** (árabe)
+- Suporte a **7 idiomas**: Português 🇧🇷, Inglês 🇺🇸, Espanhol 🇲🇽, Francês 🇫🇷, Alemão 🇩🇪, Japonês 🇯🇵 e Árabe 🇸🇦
+- Suporte a layout **RTL** (Árabe)
 
 ### Acessibilidade
 - Leitura em voz alta com a **Web Speech API** em todos os idiomas citados
