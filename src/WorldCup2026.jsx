@@ -5,6 +5,7 @@ import MatchCalendar from "./MatchCalendar";
 import GameAlert from "./GameAlert";
 import CupQuiz from "./CupQuiz";
 import WeatherWidget from "./WeatherWidget";
+import ChampionsHistory from "./ChampionsHistory";
 
 // ─── THEME CONTEXT ────────────────────────────────────────────────────────────
 
@@ -36,6 +37,7 @@ const T = {
     navQuiz: "Quiz",
     navAlert: "Meu Time",
     navWeather: "Clima",
+    navChampions: "Campeões",
     heroBadge: "11 Jun – 19 Jul 2026",
     heroFlags: "Sedes: EUA, Canadá e México",
     heroSub: "A maior Copa da história.",
@@ -89,6 +91,7 @@ const T = {
     navQuiz: "Quiz",
     navAlert: "My Team",
     navWeather: "Weather",
+    navChampions: "Champions",
     heroBadge: "Jun 11 – Jul 19, 2026",
     heroFlags: "Host nations: USA, Canada and Mexico",
     heroSub: "The biggest World Cup ever.",
@@ -142,6 +145,7 @@ const T = {
     navQuiz: "Quiz",
     navAlert: "Mi Equipo",
     navWeather: "Clima",
+    navChampions: "Campeones",
     heroBadge: "11 Jun – 19 Jul 2026",
     heroFlags: "Sedes: EE.UU., Canadá y México",
     heroSub: "La Copa más grande de la historia.",
@@ -195,6 +199,7 @@ const T = {
     navQuiz: "Quiz",
     navAlert: "Mon Équipe",
     navWeather: "Météo",
+    navChampions: "Champions",
     heroBadge: "11 Juin – 19 Juil 2026",
     heroFlags: "Pays hôtes : États-Unis, Canada et Mexique",
     heroSub: "La plus grande Coupe du Monde de l'histoire.",
@@ -248,6 +253,7 @@ const T = {
     navQuiz: "Quiz",
     navAlert: "Mein Team",
     navWeather: "Wetter",
+    navChampions: "Meister",
     heroBadge: "11. Jun – 19. Jul 2026",
     heroFlags: "Gastgeberländer: USA, Kanada und Mexiko",
     heroSub: "Die größte WM aller Zeiten.",
@@ -301,6 +307,7 @@ const T = {
     navQuiz: "クイズ",
     navAlert: "マイチーム",
     navWeather: "天気",
+    navChampions: "歴代王者",
     heroBadge: "2026年6月11日 – 7月19日",
     heroFlags: "開催国：アメリカ、カナダ、メキシコ",
     heroSub: "史上最大のワールドカップ。",
@@ -354,6 +361,7 @@ const T = {
     navQuiz: "اختبار",
     navAlert: "فريقي",
     navWeather: "الطقس",
+    navChampions: "أبطال العالم",
     heroBadge: "11 يونيو – 19 يوليو 2026",
     heroFlags: "دول الاستضافة: الولايات المتحدة وكندا والمكسيك",
     heroSub: "أكبر كأس عالم في التاريخ.",
@@ -627,6 +635,7 @@ function Nav({ lang, setLang }) {
     { href: "#quiz", label: t.navQuiz },
     { href: "#alertas", label: t.navAlert },
     { href: "#clima", label: t.navWeather },
+    { href: "#campeoes", label: t.navChampions },
     { href: "#sobre", label: t.navAbout },
     { href: "#feedback", label: t.navFeedback },
   ];
@@ -1112,6 +1121,7 @@ function AppContent() {
         <div id="calendario"><MatchCalendar lang={lang} /></div>
         <div id="alertas"><GameAlert lang={lang} /></div>
         <div id="quiz"><CupQuiz lang={lang} /></div>
+        <div id="campeoes"><ChampionsHistory lang={lang} /></div>
         <About lang={lang} />
         <Feedback lang={lang} />
       </main>
