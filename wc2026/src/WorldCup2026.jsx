@@ -5,7 +5,6 @@ import MatchCalendar from "./MatchCalendar";
 import GameAlert from "./GameAlert";
 import CupQuiz from "./CupQuiz";
 import WeatherWidget from "./WeatherWidget";
-import ChampionsHistory from "./ChampionsHistory";
 
 // ─── THEME CONTEXT ────────────────────────────────────────────────────────────
 
@@ -37,7 +36,6 @@ const T = {
     navQuiz: "Quiz",
     navAlert: "Meu Time",
     navWeather: "Clima",
-    navChampions: "Campeões",
     heroBadge: "11 Jun – 19 Jul 2026",
     heroFlags: "Sedes: EUA, Canadá e México",
     heroSub: "A maior Copa da história.",
@@ -91,7 +89,6 @@ const T = {
     navQuiz: "Quiz",
     navAlert: "My Team",
     navWeather: "Weather",
-    navChampions: "Champions",
     heroBadge: "Jun 11 – Jul 19, 2026",
     heroFlags: "Host nations: USA, Canada and Mexico",
     heroSub: "The biggest World Cup ever.",
@@ -145,7 +142,6 @@ const T = {
     navQuiz: "Quiz",
     navAlert: "Mi Equipo",
     navWeather: "Clima",
-    navChampions: "Campeones",
     heroBadge: "11 Jun – 19 Jul 2026",
     heroFlags: "Sedes: EE.UU., Canadá y México",
     heroSub: "La Copa más grande de la historia.",
@@ -199,7 +195,6 @@ const T = {
     navQuiz: "Quiz",
     navAlert: "Mon Équipe",
     navWeather: "Météo",
-    navChampions: "Champions",
     heroBadge: "11 Juin – 19 Juil 2026",
     heroFlags: "Pays hôtes : États-Unis, Canada et Mexique",
     heroSub: "La plus grande Coupe du Monde de l'histoire.",
@@ -253,7 +248,6 @@ const T = {
     navQuiz: "Quiz",
     navAlert: "Mein Team",
     navWeather: "Wetter",
-    navChampions: "Meister",
     heroBadge: "11. Jun – 19. Jul 2026",
     heroFlags: "Gastgeberländer: USA, Kanada und Mexiko",
     heroSub: "Die größte WM aller Zeiten.",
@@ -307,7 +301,6 @@ const T = {
     navQuiz: "クイズ",
     navAlert: "マイチーム",
     navWeather: "天気",
-    navChampions: "歴代王者",
     heroBadge: "2026年6月11日 – 7月19日",
     heroFlags: "開催国：アメリカ、カナダ、メキシコ",
     heroSub: "史上最大のワールドカップ。",
@@ -361,7 +354,6 @@ const T = {
     navQuiz: "اختبار",
     navAlert: "فريقي",
     navWeather: "الطقس",
-    navChampions: "أبطال العالم",
     heroBadge: "11 يونيو – 19 يوليو 2026",
     heroFlags: "دول الاستضافة: الولايات المتحدة وكندا والمكسيك",
     heroSub: "أكبر كأس عالم في التاريخ.",
@@ -635,7 +627,6 @@ function Nav({ lang, setLang }) {
     { href: "#quiz", label: t.navQuiz },
     { href: "#alertas", label: t.navAlert },
     { href: "#clima", label: t.navWeather },
-    { href: "#campeoes", label: t.navChampions },
     { href: "#sobre", label: t.navAbout },
     { href: "#feedback", label: t.navFeedback },
   ];
@@ -969,29 +960,13 @@ function Feedback({ lang }) {
     return e;
   };
 
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { db } from "./firebase";
-
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  const errs = validate();
-  if (Object.keys(errs).length) { setErrors(errs); return; }
-
-  try {
-    await addDoc(collection(db, "feedbacks"), {
-      name:    form.name,
-      email:   form.email,
-      message: form.message,
-      rating:  form.rating,
-      lang:    lang,
-      createdAt: serverTimestamp(),
-    });
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const errs = validate();
+    if (Object.keys(errs).length) { setErrors(errs); return; }
     setErrors({});
     setSubmitted(true);
-  } catch (err) {
-    console.error("Erro ao salvar feedback:", err);
-  }
-};
+  };
 
   const inputClass = (field) => `w-full px-4 py-3 rounded-xl border text-sm font-medium transition-all duration-200 outline-none
     focus:ring-2 focus:ring-yellow-400 focus:border-transparent
@@ -1110,7 +1085,14 @@ function Footer({ lang }) {
 
 function AppContent() {
   const { dark } = useTheme();
-  const [lang, setLang] = useState("pt-BR");
+  const [lang, setLang] = useState(() =>
+  localStorage.getItem("wc2026_lang") || "pt-BR"
+);
+
+const handleSetLang = (newLang) => {
+  setLang(newLang);
+  localStorage.setItem("wc2026_lang", newLang);
+};
   const t = T[lang];
   const isRtl = lang === "ar-SA";
 
@@ -1124,7 +1106,7 @@ function AppContent() {
         {t.skipLink}
       </a>
 
-      <Nav lang={lang} setLang={setLang} />
+      <Nav lang={lang} setLang={handleSetLang} />
       <TTSButton lang={lang} />
 
       <main id="main-content" tabIndex={-1}>
@@ -1137,7 +1119,6 @@ function AppContent() {
         <div id="calendario"><MatchCalendar lang={lang} /></div>
         <div id="alertas"><GameAlert lang={lang} /></div>
         <div id="quiz"><CupQuiz lang={lang} /></div>
-        <div id="campeoes"><ChampionsHistory lang={lang} /></div>
         <About lang={lang} />
         <Feedback lang={lang} />
       </main>
@@ -1148,8 +1129,18 @@ function AppContent() {
 }
 
 export default function App() {
-  const [dark, setDark] = useState(true);
-  const toggleDark = useCallback(() => setDark(v => !v), []);
+  const [dark, setDark] = useState(() => {
+    const saved = localStorage.getItem("wc2026_theme");
+    return saved ? saved === "dark" : true;
+  });
+
+  const toggleDark = useCallback(() => {
+    setDark(v => {
+      const next = !v;
+      localStorage.setItem("wc2026_theme", next ? "dark" : "light");
+      return next;
+    });
+  }, []);
 
   return (
     <ThemeContext.Provider value={{ dark, toggleDark }}>
