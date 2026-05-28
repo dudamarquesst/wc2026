@@ -18,6 +18,35 @@ O site foi construído com foco em **acessibilidade**, **responsividade mobile-f
 
 ---
 
+## Documentação
+
+### Por que escolhemos este framework?
+
+Escolhemos **React com Vite** por ser uma combinação moderna, rápida e amplamente utilizada no mercado. O React permite criar componentes reutilizáveis e gerenciar o estado da interface de forma simples, o que foi essencial para funcionalidades como o filtro por continente e os cards expansíveis do histórico de campeões. O Vite oferece um servidor de desenvolvimento extremamente rápido e build otimizado para produção. Além disso, utilizamos **Tailwind CSS** para estilização ágil e consistente, sem a necessidade de escrever CSS manualmente.
+
+### Principais dificuldades técnicas encontradas
+
+- **Integração com o ThemeContext:** Foi necessário entender como o contexto de tema (`ThemeContext`) já existente no projeto funcionava para que o componente `ChampionsHistory` respondesse corretamente ao modo claro e escuro.
+- **Deploy no GitHub Pages:** O fluxo de build e deploy não era disparado automaticamente após o merge do Pull Request, exigindo a execução manual dos comandos `npm run build` e `npm run deploy` no terminal.
+- **Tradução para múltiplos idiomas:** O projeto suporta 7 idiomas e a propriedade `navChampions` estava ausente em 5 deles (`es-MX`, `fr-FR`, `de-DE`, `ja-JP`, `ar-SA`), o que exigiu identificar e corrigir cada entrada manualmente no objeto `T`.
+
+---
+
+## Testes Realizados
+
+### Teste de Responsividade
+
+> Tablet
+<img width="768" height="849" alt="image" src="https://github.com/user-attachments/assets/64ad5d0d-9860-4890-b977-b7428dc17707" />
+
+> Celular
+<img width="769" height="916" alt="image" src="https://github.com/user-attachments/assets/dcc3f674-609a-4334-93bc-3f494aeaecd3" />
+
+> Desktop
+<img width="1905" height="991" alt="image" src="https://github.com/user-attachments/assets/0d5dde0b-d3eb-4b0e-a771-399ec318bd23" />
+
+---
+
 ## Funcionalidades
 
 ### Internacionalização
@@ -120,19 +149,6 @@ wc2026/
 
 ---
 
-## Documentação
-
-### Por que escolhemos este framework?
-
-Escolhemos **React com Vite** por ser uma combinação moderna, rápida e amplamente utilizada no mercado. O React permite criar componentes reutilizáveis e gerenciar o estado da interface de forma simples, o que foi essencial para funcionalidades como o filtro por continente e os cards expansíveis do histórico de campeões. O Vite oferece um servidor de desenvolvimento extremamente rápido e build otimizado para produção. Além disso, utilizamos **Tailwind CSS** para estilização ágil e consistente, sem a necessidade de escrever CSS manualmente.
-
-### Principais dificuldades técnicas encontradas
-
-- **Integração com o ThemeContext:** Foi necessário entender como o contexto de tema (`ThemeContext`) já existente no projeto funcionava para que o componente `ChampionsHistory` respondesse corretamente ao modo claro e escuro.
-- **Deploy no GitHub Pages:** O fluxo de build e deploy não era disparado automaticamente após o merge do Pull Request, exigindo a execução manual dos comandos `npm run build` e `npm run deploy` no terminal.
-- **Tradução para múltiplos idiomas:** O projeto suporta 7 idiomas e a propriedade `navChampions` estava ausente em 5 deles (`es-MX`, `fr-FR`, `de-DE`, `ja-JP`, `ar-SA`), o que exigiu identificar e corrigir cada entrada manualmente no objeto `T`.
-
-
 ## Deploy
 
 O site está publicado via **GitHub Pages**:
@@ -153,7 +169,7 @@ Este projeto é um site informativo **não oficial** sobre a Copa do Mundo FIFA 
 
 Durante o desenvolvimento deste projeto, ferramentas de IA foram utilizadas como apoio técnico:
 
-- **Claude (Anthropic):** Auxiliou na geração do componente `ChampionsHistory.jsx`, na identificação das traduções ausentes no objeto `T` para os 7 idiomas, na elaboração da descrição do Pull Request e na redação desta documentação.
+- **Claude (Anthropic):** Auxiliou na geração do código, na identificação das traduções ausentes no objeto `T` para os 7 idiomas.
 
 O uso da IA foi supervisionado e todo o código gerado foi revisado, compreendido e integrado manualmente pelos membros do grupo.
 
