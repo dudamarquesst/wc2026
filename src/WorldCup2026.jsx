@@ -960,13 +960,29 @@ function Feedback({ lang }) {
     return e;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const errs = validate();
-    if (Object.keys(errs).length) { setErrors(errs); return; }
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { db } from "./firebase";
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  const errs = validate();
+  if (Object.keys(errs).length) { setErrors(errs); return; }
+
+  try {
+    await addDoc(collection(db, "feedbacks"), {
+      name:    form.name,
+      email:   form.email,
+      message: form.message,
+      rating:  form.rating,
+      lang:    lang,
+      createdAt: serverTimestamp(),
+    });
     setErrors({});
     setSubmitted(true);
-  };
+  } catch (err) {
+    console.error("Erro ao salvar feedback:", err);
+  }
+};
 
   const inputClass = (field) => `w-full px-4 py-3 rounded-xl border text-sm font-medium transition-all duration-200 outline-none
     focus:ring-2 focus:ring-yellow-400 focus:border-transparent
