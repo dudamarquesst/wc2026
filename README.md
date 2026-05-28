@@ -149,7 +149,19 @@ Este projeto é um site informativo **não oficial** sobre a Copa do Mundo FIFA 
 
 ---
 
+##  Uso de Inteligência Artificial
+
+Durante o desenvolvimento deste projeto, ferramentas de IA foram utilizadas como apoio técnico:
+
+- **Claude (Anthropic):** Auxiliou na geração do componente `ChampionsHistory.jsx`, na identificação das traduções ausentes no objeto `T` para os 7 idiomas, na elaboração da descrição do Pull Request e na redação desta documentação.
+
+O uso da IA foi supervisionado e todo o código gerado foi revisado, compreendido e integrado manualmente pelos membros do grupo.
+
+---
+
 <div align="center">
   Feito por Maria Eduarda, Miguel Moura, Lucas Gabriel e Jorge Murilo para a matéria de Desenvolvimento Web<br/>
   🇺🇸 Estados Unidos · 🇨🇦 Canadá · 🇲🇽 México
 </div>
+
+
