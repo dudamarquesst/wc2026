@@ -120,6 +120,19 @@ wc2026/
 
 ---
 
+## Documentação
+
+### Por que escolhemos este framework?
+
+Escolhemos **React com Vite** por ser uma combinação moderna, rápida e amplamente utilizada no mercado. O React permite criar componentes reutilizáveis e gerenciar o estado da interface de forma simples, o que foi essencial para funcionalidades como o filtro por continente e os cards expansíveis do histórico de campeões. O Vite oferece um servidor de desenvolvimento extremamente rápido e build otimizado para produção. Além disso, utilizamos **Tailwind CSS** para estilização ágil e consistente, sem a necessidade de escrever CSS manualmente.
+
+### Principais dificuldades técnicas encontradas
+
+- **Integração com o ThemeContext:** Foi necessário entender como o contexto de tema (`ThemeContext`) já existente no projeto funcionava para que o componente `ChampionsHistory` respondesse corretamente ao modo claro e escuro.
+- **Deploy no GitHub Pages:** O fluxo de build e deploy não era disparado automaticamente após o merge do Pull Request, exigindo a execução manual dos comandos `npm run build` e `npm run deploy` no terminal.
+- **Tradução para múltiplos idiomas:** O projeto suporta 7 idiomas e a propriedade `navChampions` estava ausente em 5 deles (`es-MX`, `fr-FR`, `de-DE`, `ja-JP`, `ar-SA`), o que exigiu identificar e corrigir cada entrada manualmente no objeto `T`.
+
+
 ## Deploy
 
 O site está publicado via **GitHub Pages**:
