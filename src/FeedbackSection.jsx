@@ -17,7 +17,7 @@ import { useState, useEffect, useCallback } from "react";
 
 // ─── URL base da API ──────────────────────────────────────────────────────────
 // O Vite proxy em vite.config.js redireciona "/api" → "http://localhost:3001"
-const API_URL = "/api/feedbacks";
+const API_URL = "https://wc2026-0zo4.onrender.com/api/feedbacks";
 
 // ─── Chave do localStorage ────────────────────────────────────────────────────
 const LS_KEY = "wc2026_meus_feedbacks";
