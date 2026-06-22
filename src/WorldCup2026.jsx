@@ -6,6 +6,7 @@ import GameAlert from "./GameAlert";
 import CupQuiz from "./CupQuiz";
 import WeatherWidget from "./WeatherWidget";
 import ChampionsHistory from "./ChampionsHistory";
+import FeedbackSection from "./FeedbackSection";
 
 // ─── THEME CONTEXT ────────────────────────────────────────────────────────────
 
@@ -951,135 +952,6 @@ function About({ lang }) {
   );
 }
 
-// ─── FEEDBACK ─────────────────────────────────────────────────────────────────
-
-function Feedback({ lang }) {
-  const { dark } = useTheme();
-  const t = T[lang];
-  const [form, setForm] = useState({ name: "", email: "", message: "", rating: 0 });
-  const [errors, setErrors] = useState({});
-  const [submitted, setSubmitted] = useState(false);
-  const [hoveredStar, setHoveredStar] = useState(0);
-
-  const validate = () => {
-    const e = {};
-    if (!form.name.trim()) e.name = t.errName;
-    if (!form.email.match(/^[^@]+@[^@]+\.[^@]+$/)) e.email = t.errEmail;
-    if (!form.message.trim()) e.message = t.errMsg;
-    return e;
-  };
-
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { db } from "./firebase";
-
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  const errs = validate();
-  if (Object.keys(errs).length) { setErrors(errs); return; }
-
-  try {
-    await addDoc(collection(db, "feedbacks"), {
-      name:    form.name,
-      email:   form.email,
-      message: form.message,
-      rating:  form.rating,
-      lang:    lang,
-      createdAt: serverTimestamp(),
-    });
-    setErrors({});
-    setSubmitted(true);
-  } catch (err) {
-    console.error("Erro ao salvar feedback:", err);
-  }
-};
-
-  const inputClass = (field) => `w-full px-4 py-3 rounded-xl border text-sm font-medium transition-all duration-200 outline-none
-    focus:ring-2 focus:ring-yellow-400 focus:border-transparent
-    ${errors[field] ? "border-red-400 bg-red-50/10" : dark ? "border-slate-700 bg-slate-800/60 text-white placeholder-slate-500" : "border-slate-300 bg-white text-slate-900 placeholder-slate-400"}`;
-
-  const labelClass = `block text-xs font-bold uppercase tracking-wider mb-1.5 ${dark ? "text-slate-400" : "text-slate-600"}`;
-
-  const sectionBg = dark ? "bg-slate-900/60 backdrop-blur-sm" : "bg-slate-50";
-
-  return (
-    <section id="feedback" aria-labelledby="feedback-heading" className={`py-16 md:py-24 ${sectionBg}`}>
-      <div className="max-w-2xl mx-auto px-4">
-        <p className={`text-xs uppercase tracking-[0.3em] font-bold mb-3 text-center ${dark ? "text-emerald-400" : "text-emerald-600"}`}>{t.feedbackLabel}</p>
-        <h2 id="feedback-heading" className={`text-3xl md:text-4xl font-black uppercase mb-4 text-center leading-tight ${dark ? "text-white" : "text-slate-900"}`}>
-          {t.feedbackTitle}<span className="text-emerald-500">{t.feedbackHighlight}</span>
-        </h2>
-        <p className={`text-center text-sm mb-10 ${dark ? "text-slate-400" : "text-slate-500"}`}>{t.feedbackDesc}</p>
-
-        {submitted ? (
-          <div role="status" aria-live="polite" className={`rounded-2xl border p-10 text-center ${dark ? "bg-slate-800/60 border-emerald-500/30" : "bg-white border-emerald-300 shadow-sm"}`}>
-            <div className="text-5xl mb-4" aria-hidden="true">🎉</div>
-            <h3 className={`text-xl font-black mb-2 ${dark ? "text-white" : "text-slate-900"}`}>{t.successTitle}</h3>
-            <p className={`text-sm ${dark ? "text-slate-400" : "text-slate-500"}`}>{t.successDesc}</p>
-            <button onClick={() => { setSubmitted(false); setForm({ name:"", email:"", message:"", rating:0 }); }}
-              className="mt-6 px-6 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white font-bold text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400">
-              ↩ Novo feedback
-            </button>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} noValidate aria-label="Formulário de feedback"
-            className={`rounded-2xl border p-6 md:p-8 space-y-5 ${dark ? "bg-slate-800/60 border-slate-700/50" : "bg-white border-slate-200 shadow-sm"}`}>
-
-            {/* Rating Stars */}
-            <div>
-              <p className={labelClass} id="rating-label">{t.fieldRating}</p>
-              <div role="radiogroup" aria-labelledby="rating-label" className="flex gap-2 mt-1">
-                {[1,2,3,4,5].map(star => (
-                  <button key={star} type="button" role="radio" aria-checked={form.rating === star}
-                    aria-label={`${star} estrela${star > 1 ? "s" : ""}`}
-                    onMouseEnter={() => setHoveredStar(star)} onMouseLeave={() => setHoveredStar(0)}
-                    onClick={() => setForm(f => ({ ...f, rating: star }))}
-                    className="text-2xl transition-transform hover:scale-125 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 rounded">
-                    <span aria-hidden="true">{star <= (hoveredStar || form.rating) ? "⭐" : "☆"}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Name */}
-            <div>
-              <label htmlFor="fb-name" className={labelClass}>{t.fieldName} *</label>
-              <input id="fb-name" type="text" autoComplete="name" value={form.name}
-                onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-                aria-required="true" aria-invalid={!!errors.name} aria-describedby={errors.name ? "err-name" : undefined}
-                placeholder={t.fieldName} className={inputClass("name")} />
-              {errors.name && <p id="err-name" role="alert" className="mt-1 text-xs text-red-400 font-semibold">{errors.name}</p>}
-            </div>
-
-            {/* Email */}
-            <div>
-              <label htmlFor="fb-email" className={labelClass}>{t.fieldEmail} *</label>
-              <input id="fb-email" type="email" autoComplete="email" value={form.email}
-                onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
-                aria-required="true" aria-invalid={!!errors.email} aria-describedby={errors.email ? "err-email" : undefined}
-                placeholder={t.fieldEmail} className={inputClass("email")} />
-              {errors.email && <p id="err-email" role="alert" className="mt-1 text-xs text-red-400 font-semibold">{errors.email}</p>}
-            </div>
-
-            {/* Message */}
-            <div>
-              <label htmlFor="fb-message" className={labelClass}>{t.fieldMsg.replace("...", "")} *</label>
-              <textarea id="fb-message" rows={4} value={form.message}
-                onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
-                aria-required="true" aria-invalid={!!errors.message} aria-describedby={errors.message ? "err-message" : undefined}
-                placeholder={t.fieldMsg} className={`${inputClass("message")} resize-none`} />
-              {errors.message && <p id="err-message" role="alert" className="mt-1 text-xs text-red-400 font-semibold">{errors.message}</p>}
-            </div>
-
-            <button type="submit"
-              className="w-full py-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 active:scale-[0.98] text-white font-black uppercase tracking-wide text-sm transition-all duration-200 shadow-lg shadow-emerald-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:ring-offset-2">
-              {t.submitBtn} →
-            </button>
-          </form>
-        )}
-      </div>
-    </section>
-  );
-}
 
 // ─── FOOTER ───────────────────────────────────────────────────────────────────
 
@@ -1139,7 +1011,7 @@ function AppContent() {
         <div id="quiz"><CupQuiz lang={lang} /></div>
         <div id="campeoes"><ChampionsHistory lang={lang} /></div>
         <About lang={lang} />
-        <Feedback lang={lang} />
+        <FeedbackSection t={t} isDark={dark} />
       </main>
 
       <Footer lang={lang} />

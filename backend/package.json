@@ -1,0 +1,15 @@
+{
+  "name": "wc2026-backend",
+  "version": "1.0.0",
+  "description": "Backend Node.js + Express + SQLite (built-in) para o site Copa do Mundo 2026",
+  "main": "server.js",
+  "scripts": {
+    "start": "node --no-experimental-fetch server.js",
+    "dev": "node --disable-warning=ExperimentalWarning --watch server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "helmet": "^7.1.0"
+  }
+}
