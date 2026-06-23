@@ -7,6 +7,8 @@ import CupQuiz from "./CupQuiz";
 import WeatherWidget from "./WeatherWidget";
 import ChampionsHistory from "./ChampionsHistory";
 import FeedbackSection from "./FeedbackSection";
+import LiveScores from "./LiveScores";
+
 
 // ─── THEME CONTEXT ────────────────────────────────────────────────────────────
 
@@ -409,19 +411,20 @@ const T = {
 // ─── DATA ─────────────────────────────────────────────────────────────────────
 
 const GROUPS = {
-  A: ["Qatar", "Ecuador", "Senegal", "Netherlands"],
-  B: ["England", "Iran", "USA", "Wales"],
-  C: ["Argentina", "Saudi Arabia", "Mexico", "Poland"],
-  D: ["France", "Australia", "Denmark", "Tunisia"],
-  E: ["Spain", "Costa Rica", "Germany", "Japan"],
-  F: ["Belgium", "Canada", "Morocco", "Croatia"],
-  G: ["Brazil", "Serbia", "Switzerland", "Cameroon"],
-  H: ["Portugal", "Ghana", "Uruguay", "South Korea"],
-  I: ["Netherlands", "Senegal", "Ecuador", "Qatar"],
-  J: ["Italy", "Colombia", "Egypt", "Ivory Coast"],
-  K: ["Nigeria", "South Africa", "Chile", "New Zealand"],
-  L: ["Iran", "Algeria", "Indonesia", "Peru"],
+  A: ["México", "África do Sul", "Coreia do Sul", "Tchéquia"],
+  B: ["Canadá", "Bósnia e Herzegovina", "Catar", "Suíça"],
+  C: ["Brasil", "Marrocos", "Haiti", "Escócia"],
+  D: ["Estados Unidos", "Paraguai", "Austrália", "Turquia"],
+  E: ["Alemanha", "Curaçao", "Costa do Marfim", "Equador"],
+  F: ["Holanda", "Japão", "Suécia", "Tunísia"],
+  G: ["Bélgica", "Egito", "Irã", "Nova Zelândia"],
+  H: ["Espanha", "Cabo Verde", "Arábia Saudita", "Uruguai"],
+  I: ["França", "Senegal", "Iraque", "Noruega"],
+  J: ["Argentina", "Argélia", "Áustria", "Jordânia"],
+  K: ["Portugal", "Rep. Dem. do Congo", "Uzbequistão", "Colômbia"],
+  L: ["Inglaterra", "Croácia", "Gana", "Panamá"],
 };
+
 
 const HOSTS = {
   USA: {
@@ -433,7 +436,18 @@ const HOSTS = {
 };
 
 const TEAMS_FLAGS = {
-  "Qatar":"🇶🇦","Ecuador":"🇪🇨","Senegal":"🇸🇳","Netherlands":"🇳🇱","England":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","Iran":"🇮🇷","USA":"🇺🇸","Wales":"🏴󠁧󠁢󠁷󠁬󠁳󠁿","Argentina":"🇦🇷","Saudi Arabia":"🇸🇦","Mexico":"🇲🇽","Poland":"🇵🇱","France":"🇫🇷","Australia":"🇦🇺","Denmark":"🇩🇰","Tunisia":"🇹🇳","Spain":"🇪🇸","Costa Rica":"🇨🇷","Germany":"🇩🇪","Japan":"🇯🇵","Belgium":"🇧🇪","Canada":"🇨🇦","Morocco":"🇲🇦","Croatia":"🇭🇷","Brazil":"🇧🇷","Serbia":"🇷🇸","Switzerland":"🇨🇭","Cameroon":"🇨🇲","Portugal":"🇵🇹","Ghana":"🇬🇭","Uruguay":"🇺🇾","South Korea":"🇰🇷","Italy":"🇮🇹","Colombia":"🇨🇴","Egypt":"🇪🇬","Ivory Coast":"🇨🇮","Nigeria":"🇳🇬","South Africa":"🇿🇦","Chile":"🇨🇱","New Zealand":"🇳🇿","Algeria":"🇩🇿","Indonesia":"🇮🇩","Peru":"🇵🇪",
+  "México":"🇲🇽","África do Sul":"🇿🇦","Coreia do Sul":"🇰🇷","Tchéquia":"🇨🇿",
+  "Canadá":"🇨🇦","Bósnia e Herzegovina":"🇧🇦","Catar":"🇶🇦","Suíça":"🇨🇭",
+  "Brasil":"🇧🇷","Marrocos":"🇲🇦","Haiti":"🇭🇹","Escócia":"🏴󠁧󠁢󠁳󠁣󠁴󠁿",
+  "Estados Unidos":"🇺🇸","Paraguai":"🇵🇾","Austrália":"🇦🇺","Turquia":"🇹🇷",
+  "Alemanha":"🇩🇪","Curaçao":"🇨🇼","Costa do Marfim":"🇨🇮","Equador":"🇪🇨",
+  "Holanda":"🇳🇱","Japão":"🇯🇵","Suécia":"🇸🇪","Tunísia":"🇹🇳",
+  "Bélgica":"🇧🇪","Egito":"🇪🇬","Irã":"🇮🇷","Nova Zelândia":"🇳🇿",
+  "Espanha":"🇪🇸","Cabo Verde":"🇨🇻","Arábia Saudita":"🇸🇦","Uruguai":"🇺🇾",
+  "França":"🇫🇷","Senegal":"🇸🇳","Iraque":"🇮🇶","Noruega":"🇳🇴",
+  "Argentina":"🇦🇷","Argélia":"🇩🇿","Áustria":"🇦🇹","Jordânia":"🇯🇴",
+  "Portugal":"🇵🇹","Rep. Dem. do Congo":"🇨🇩","Uzbequistão":"🇺🇿","Colômbia":"🇨🇴",
+  "Inglaterra":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","Croácia":"🇭🇷","Gana":"🇬🇭","Panamá":"🇵🇦",
 };
 
 const OPENING_DATE = new Date("2026-06-11T16:00:00-05:00");
@@ -639,6 +653,7 @@ function Nav({ lang, setLang }) {
     { href: "#campeoes", label: t.navChampions },
     { href: "#sobre", label: t.navAbout },
     { href: "#feedback", label: t.navFeedback },
+    { href: "#placares", label: "Placares" },
   ];
 
   const navBg = scrolled
@@ -1010,6 +1025,7 @@ function AppContent() {
         <div id="alertas"><GameAlert lang={lang} /></div>
         <div id="quiz"><CupQuiz lang={lang} /></div>
         <div id="campeoes"><ChampionsHistory lang={lang} /></div>
+        <div id="placares"><LiveScores dark={dark} /></div>
         <About lang={lang} />
         <FeedbackSection t={t} isDark={dark} />
       </main>
